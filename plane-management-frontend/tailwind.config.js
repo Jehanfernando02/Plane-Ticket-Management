@@ -11,8 +11,19 @@ export default {
         secondary: '#3B82F6', // Lighter blue for accents
         accent: '#F59E0B', // Yellow for highlights
       },
+      animation: {
+        spin: 'spin 1s linear infinite',
+      },
+      animationDelay: {
+        150: '150ms',
+        300: '300ms',
+      },
     },
   },
   plugins: [],
   darkMode: 'class', // Enable dark mode with class toggle
+  safelist: [
+    'animation-delay-150',
+    'animation-delay-300',
+  ],
 }

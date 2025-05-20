@@ -1,33 +1,41 @@
-
 import { useEffect, useState } from 'react';
 import { getTickets } from '../utils/api';
+import LoadingSpinner from './LoadingSpinner.jsx';
 
 function TicketList() {
   const [tickets, setTickets] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
+        setLoading(true);
         const data = await getTickets();
         setTickets(data);
         setTotalPrice(data.reduce((sum, ticket) => sum + ticket.price, 0));
       } catch (error) {
         console.error('Error fetching tickets:', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTickets();
   }, []);
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h2 className="text-xl font-bold mb-4 dark:text-white">Tickets Information</h2>
+    <div className="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+      <h2 className="mb-4 text-xl font-bold dark:text-white">Tickets Information</h2>
       {tickets.length === 0 ? (
         <p className="dark:text-white">No tickets sold.</p>
       ) : (
         <>
           {tickets.map((ticket, index) => (
-            <div key={index} className="border-b py-2 dark:border-gray-700">
+            <div key={index} className="py-2 border-b dark:border-gray-700">
               <p className="dark:text-white">Row: {ticket.row}</p>
               <p className="dark:text-white">Seat: {ticket.seat + 1}</p>
               <p className="dark:text-white">Price: £{ticket.price}</p>
@@ -42,4 +50,5 @@ function TicketList() {
     </div>
   );
 }
+
 export default TicketList;
