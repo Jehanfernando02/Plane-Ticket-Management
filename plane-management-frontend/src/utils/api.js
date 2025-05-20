@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080/api/seats';
+const API_URL = import.meta.env.VITE_BACKEND_URL || 'https://plane-ticket-management-backend.onrender.com/api/seats';
 
 export const getSeats = async () => {
   const response = await fetch(API_URL);
